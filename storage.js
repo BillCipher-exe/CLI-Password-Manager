@@ -37,7 +37,7 @@ let print_data = (index) =>
         header: 
         {
             alignment: 'center',
-            content: "YOUR DATA\nIN ENCRYPTION WE TRUST",
+            content: "IN ENCRYPTION WE TRUST",
         }
     }
     let table_content=[];
@@ -80,6 +80,7 @@ let write_data = () =>
 
 let delete_data = () =>
 {
+    print_data();
     console.log("which record do you want to delete: ")
     let line = prompt("Input line ID: ")
     data.content.splice(line,1);
@@ -100,31 +101,46 @@ let search_data = () =>
 }
 
 if(!fs.existsSync("./save/data"))
-{
-    const key_init = prompt("set your password: ");
-    let cryptr_init = new Cryptr(key_init);
-    localStorage.setItem("data",cryptr_init.encrypt(JSON.stringify(data)));
+{   try
+    {
+        const key_init = prompt("set your password: ");
+        let cryptr_init = new Cryptr(key_init);
+        localStorage.setItem("data",cryptr_init.encrypt(JSON.stringify(data)));
+    }
+    catch(error)
+    {
+        console.log("Password cant be Empty. Try again.")
+    }    
 }
 else
 {
+
     const key_string = prompt("Password: ");
-    let cryptr = new Cryptr(key_string);
-    data = JSON.parse(cryptr.decrypt(localStorage.getItem("data")));
-    
-    let input = ""
-    print_data();
-    while (input!="q")
+    try
     {
-        console.log("|p: print all|   |w: write|    |d: delete|  |s: search|   |q: quit|");
-        input = prompt("input: ");
-        switch(input)
+        let cryptr = new Cryptr(key_string);
+        data = JSON.parse(cryptr.decrypt(localStorage.getItem("data")));
+    
+        let input = ""
+        print_data();
+        while (input!="q")
         {
-            case "p": print_data();break;
-            case "w": write_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
-            case "d": delete_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
-            case "s": search_data();break;
-            case "q": input = "q";break;
-            default:
+            console.log("|p: print all|   |w: write|    |d: delete|  |s: search|   |q: quit|");
+            input = prompt("input: ");
+            switch(input)
+            {
+                case "p": print_data();break;
+                case "w": write_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
+                case "d": delete_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
+                case "s": search_data();break;
+                case "q": input = "q";break;
+                default:
+            }
         }
     }
+    catch(error)
+    {
+        console.log("wrong password fool")
+    }    
+
 }
