@@ -148,7 +148,7 @@ let main = async ()=>
         }
         catch(error)
         {
-            console.log("\nwrong password");
+            term.red("\nwrong password!");
             process.exit();
         }    
     }
