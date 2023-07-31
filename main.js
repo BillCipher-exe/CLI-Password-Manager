@@ -14,6 +14,7 @@ let data = {content: []};
 
 let print_data = (index) =>
 {
+    console.log("\n");
     let table_content=[];
     table_content.push(["ID", "Plattform", "Description", "Username", "Password"]);
     if(index===undefined)
@@ -36,16 +37,16 @@ let print_data = (index) =>
     // console.log("\n"+table.table(table_content, config));
     term.table(table_content,{
         hasBorder: true ,
-		contentHasMarkup: true ,
+		contentHasMarkup: false ,
 		borderChars: 'double' ,
-		borderAttr: { color: 'white' } ,
+		borderAttr: { color: 'red' } ,
 		textAttr: { bgColor: 'default' } ,
-		firstCellTextAttr: { bgColor: 'blue' } ,
-		firstRowTextAttr: { bgColor: 'yellow' } ,
-		firstColumnTextAttr: { bgColor: 'red' } ,
-		width: 60 ,
-		fit: true 
-    });
+		firstCellTextAttr: { bgColor: 'white', color: "black"} ,
+		firstRowTextAttr: { bgColor: 'white', color: "black" } ,
+		firstColumnTextAttr: { bgColor: 'white', color: "black" } ,
+		width: 100 ,
+		fit: true
+        });
 }
    
 let write_data = async () =>
@@ -79,7 +80,7 @@ let delete_data = async () =>
 let search_data = async () =>
 {
     term.clear();
-    term("\nsearch: ");
+    term("search: ");
     let search = await term.inputField().promise;
     let index_match=[];
     for(i in data.content)
@@ -124,7 +125,7 @@ let main = async ()=>
             term.clear();
             // print_data();
 
-            var items = [ 'write' , 'delete' , 'search' , 'quit'] ;
+            var items = [ 'search' , 'write' , 'delete'  , 'quit'] ;
 
             var options = {
                 y: 9999 ,	// the menu will be on the top of the terminal
