@@ -109,7 +109,7 @@ let main = async ()=>
     }
     else
     {
-        term.red("Password: ");
+        term.wrap.red("Password: ");
         const key_string =  await term.inputField().promise;
         try
         {
@@ -148,7 +148,7 @@ let main = async ()=>
         }
         catch(error)
         {
-            console.log("wrong password fool");
+            console.log("\nwrong password");
             process.exit();
         }    
     }
