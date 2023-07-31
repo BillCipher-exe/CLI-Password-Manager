@@ -168,6 +168,7 @@ let main = async ()=>
                 }
                 
             }
+            term.clear();
             process.exit();
         }
         catch(error)
