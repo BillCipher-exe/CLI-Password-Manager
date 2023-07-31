@@ -2,14 +2,9 @@ let LocalStorage = require('node-localstorage').LocalStorage;
 const Cryptr = require("cryptr");
 const fs = require("fs");
 localStorage = new LocalStorage('./save');
+let term = require( 'terminal-kit' ).terminal ;
 
-//
-var term = require( 'terminal-kit' ).terminal ;
-let prompt = async ()=>
-{
 
-}
-//
 let data = {content: []};
 
 let print_data = (index) =>
@@ -53,17 +48,17 @@ let write_data = async () =>
 {   
     term.clear(); 
     let new_data={};
-    term("\nPlattform: ");
+    term.green("\nPlattform: ");
     new_data.name = await term.inputField().promise;
     if(new_data.name===null)
     {
         new_data.name="NULL";
     }
-    term("\ndescription: ");
+    term.green("\ndescription: ");
     new_data.descr = await term.inputField().promise;
-    term("\nusername: ");
+    term.blue("\nusername: ");
     new_data.usr = await term.inputField().promise;
-    term("\npassword: ");
+    term.red("\npassword: ");
     new_data.pw = await term.inputField().promise;
     data.content.push(new_data);
 }
@@ -80,7 +75,7 @@ let delete_data = async () =>
 let search_data = async () =>
 {
     term.clear();
-    term("search: ");
+    term.green("search: ");
     let search = await term.inputField().promise;
     let index_match=[];
     for(i in data.content)
@@ -101,7 +96,7 @@ let main = async ()=>
     if(!fs.existsSync("./save/data"))
     {   try
         {
-            term("SETUP Password: ");
+            term.red("SETUP Password: ");
             const key_init =  await term.inputField().promise;
             let cryptr_init = new Cryptr(key_init);
             localStorage.setItem("data",cryptr_init.encrypt(JSON.stringify(data)));
@@ -114,7 +109,7 @@ let main = async ()=>
     }
     else
     {
-        term("Password: ");
+        term.red("Password: ");
         const key_string =  await term.inputField().promise;
         try
         {
@@ -147,7 +142,6 @@ let main = async ()=>
                     case "quit": input = "q";break;
                     default:break;
                 }
-                
             }
             term.clear();
             process.exit();
