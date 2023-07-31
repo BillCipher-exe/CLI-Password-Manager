@@ -65,7 +65,19 @@ let print_data = (index) =>
         }
     }
     
-    console.log("\n"+table.table(table_content, config));
+    // console.log("\n"+table.table(table_content, config));
+    term.table(table_content,{
+        hasBorder: true ,
+		contentHasMarkup: true ,
+		borderChars: 'double' ,
+		borderAttr: { color: 'white' } ,
+		textAttr: { bgColor: 'default' } ,
+		firstCellTextAttr: { bgColor: 'blue' } ,
+		firstRowTextAttr: { bgColor: 'yellow' } ,
+		firstColumnTextAttr: { bgColor: 'red' } ,
+		width: 60 ,
+		fit: true 
+    });
 }
    
 let write_data = async () =>
@@ -147,7 +159,7 @@ let main = async ()=>
             var items = [ 'write' , 'delete' , 'search' , 'quit'] ;
 
             var options = {
-                y: 1 ,	// the menu will be on the top of the terminal
+                y: 9999 ,	// the menu will be on the top of the terminal
                 style: term.inverse ,
                 selectedStyle: term.bold.white.bgRed
             } ;
