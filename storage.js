@@ -69,7 +69,8 @@ let print_data = (index) =>
 }
    
 let write_data = async () =>
-{    
+{   
+    term.clear(); 
     let new_data={};
     term("\nPlattform: ");
     new_data.name = await term.inputField().promise;
@@ -88,6 +89,7 @@ let write_data = async () =>
 
 let delete_data = async () =>
 {
+    term.clear();
     print_data();
     term("which line to delete: ");
     let line = await term.inputField().promise;
@@ -96,6 +98,7 @@ let delete_data = async () =>
 
 let search_data = async () =>
 {
+    term.clear();
     term("\nsearch: ");
     let search = await term.inputField().promise;
     let index_match=[];
@@ -136,21 +139,32 @@ let main = async ()=>
             data = JSON.parse(cryptr.decrypt(localStorage.getItem("data")));
         
             let input = ""
-            print_data();
+            term.clear();
+            // print_data();
+
+            var items = [ 'write' , 'delete' , 'search' , 'quit'] ;
+
+            var options = {
+                y: 1 ,	// the menu will be on the top of the terminal
+                style: term.inverse ,
+                selectedStyle: term.bold.white.bgRed
+            } ;
             while (input!="q")
-            {
-                console.log("|p: print all|   |w: write|    |d: delete|  |s: search|   |q: quit|");
-                term("\Input: ");
-                input =  await term.inputField().promise;
-                switch(input)
+            {   
+                term.clear();             
+                print_data();
+                input =  await term.singleLineMenu(items, options).promise;
+                
+                switch(input.selectedText)
                 {
-                    case "p": print_data();break;
-                    case "w": await write_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
-                    case "d": await delete_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
-                    case "s": await search_data();break;
-                    case "q": input = "q";break;
+                    case "print": print_data();break;
+                    case "write": await write_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
+                    case "delete": await delete_data();localStorage.setItem("data",cryptr.encrypt(JSON.stringify(data)));break;
+                    case "search": await search_data();break;
+                    case "quit": input = "q";break;
                     default:break;
                 }
+                
             }
             process.exit();
         }
