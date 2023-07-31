@@ -110,6 +110,8 @@ let search_data = async () =>
         }
     }
     print_data(index_match);
+    term("\n press any key to return")
+    await term.inputField().promise;
 }
 
 
